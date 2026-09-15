@@ -1,0 +1,120 @@
+# ==============================
+# Sistema operativo
+# ==============================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ==============================
+# Visual Studio Code
+# ==============================
+.vscode/
+*.code-workspace
+
+# ==============================
+# Python
+# ==============================
+__pycache__/
+*$py.class
+*.pyo
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+ENV/
+
+# Archivos de configuración/locales
+.env
+.env.*
+!.env.example
+
+# Herramientas de Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Distribución / paquetes
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ==============================
+# LaTeX
+# ==============================
+# Archivos auxiliares generados al compilar
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.snm
+*.synctex
+*.synctex.gz
+*.toc
+*.vrb
+*.xdv
+*.run.xml
+
+# Auxiliares de BibTeX / Biber
+*.ilg
+*.ind
+*.idx
+*.ist
+
+# ==============================
+# LaTeX: carpeta de compilación
+# ==============================
+# Si usas una carpeta "build" para los archivos generados
+/build/
+
+# ==============================
+# Archivos temporales
+# ==============================
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# ==============================
+# Datos locales que no deberían subirse
+# ==============================
+# Descomenta si utilizas estos archivos y no quieres subirlos:
+# *.csv
+# *.xlsx
+# *.xls
+# data/
+# datasets/
+
+# ==============================
+# Archivos de credenciales
+# ==============================
+*.pem
+*.key
+credentials.json
+secrets.json
+
+# ==============================
+# Node.js (por si utilizas proyectos web)
+# ==============================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ==============================
+# Windows
+# ==============================
+$RECYCLE.BIN/
+*.lnk

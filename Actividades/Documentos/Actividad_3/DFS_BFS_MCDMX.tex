@@ -1,0 +1,965 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{lmodern}
+\usepackage{csquotes}
+
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{graphicx}
+
+\usepackage[
+    left=2.54cm,
+    right=2.54cm,
+    top=2.54cm,
+    bottom=2.54cm
+]{geometry}
+
+\usepackage{tikz}
+\usepackage{soul}
+\usepackage{listings}
+
+\usepackage[most]{tcolorbox}
+\tcbset{shield externalize}
+
+\usetikzlibrary{arrows.meta, positioning, automata}
+\usetikzlibrary{babel}
+\usetikzlibrary{external}
+\tikzexternalize[prefix=build-tikz/]
+
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+
+\lstset{
+    language=Python,
+    basicstyle=\footnotesize\ttfamily,
+    frame=single,
+    numbers=left,
+    inputencoding=utf8,
+    extendedchars=true,
+    breaklines=true,
+    showstringspaces=false,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red!70!black}
+}
+
+
+\newtcbtheorem[number within=section]{ejercicio}{Ejercicio}{
+    enhanced,
+    sharp corners,
+    boxrule=0pt,
+    leftrule=5pt,
+    colframe=gray!30!black,
+    colback=gray!5!white,
+    coltitle=white,
+    fonttitle=\bfseries,
+    separator sign={.\ },
+    before skip=10pt,
+    after skip=10pt
+}{ej}
+
+\newtcbtheorem[number within=section]{mytheo}{Teorema}{
+    enhanced,
+    sharp corners,
+    boxrule=0pt,
+    leftrule=5pt,
+    colframe=blue!40!black,
+    colback=blue!5!white,
+    coltitle=white,
+    fonttitle=\bfseries,
+    separator sign={.\ },
+    before skip=10pt,
+    after skip=10pt
+}{th}
+
+\newtcolorbox{alerta}[1]{
+    enhanced,
+    sharp corners,
+    boxrule=0pt,
+    leftrule=5pt,
+    colframe=red!40!black,
+    colback=red!5!white,
+    coltitle=white,
+    fonttitle=\bfseries,
+    title=#1,
+    before skip=10pt,
+    after skip=10pt
+}
+
+\newtcolorbox{nota}[1]{
+    enhanced,
+    sharp corners,
+    boxrule=0pt,
+    leftrule=5pt,
+    colframe=orange!40!black,
+    colback=yellow!5!white,
+    coltitle=white,
+    fonttitle=\bfseries,
+    title=#1,
+    before skip=10pt,
+    after skip=10pt
+}
+
+
+\begin{document}
+
+% PORTADA
+\begin{titlepage}
+
+    \centering
+
+    {\huge \textbf{Universidad Nacional Autónoma de México}}\\[0.3cm]
+
+    \rule{\linewidth}{2mm}\\[0.3cm]
+
+    {\large \textbf{Facultad de Estudios Superiores Acatlán}}\\[1cm]
+
+    \includegraphics[width=6cm]{../../Archivos/LOGOS_IMG/acatlan.png}\\[1cm]
+
+    {\Large \textbf{Matemáticas Aplicadas y Computación}}\\[1cm]
+
+    {\huge \textbf{Sistemas Inteligentes}}\\[0.5cm]
+
+    \rule{\linewidth}{1mm}\\[0.3cm]
+
+    \vfill
+
+    {\Large \textit{DFS Y BFS}}\\[0.5cm]
+
+    {\Large \textit{Grafo del mapa CDMX}}\\[0.5cm]
+
+
+    \vfill
+
+    \rule{\linewidth}{0.5mm}\\[0.3cm]
+
+    %{\Large \textit{Ricardo López Ramírez}}\\
+
+    \rule{\linewidth}{0.5mm}\\[0.8cm]
+
+    \small
+    Actualización: \today \hfill Página: \thepage
+
+\end{titlepage}
+
+
+% ÍNDICE
+\pagenumbering{roman}
+
+\tableofcontents
+
+\clearpage
+
+\pagenumbering{arabic}
+
+\setcounter{page}{1}
+
+\section{Breadth First Search  Cuatro Caminos -> Pantitlan}
+
+\vspace{3mm}
+
+El algoritmo BFS, utiliza FIFO (Queue) Firt in \(->\) Firt out
+
+
+
+\begin{itemize}
+    \item Estado Inicial \\
+        Frontera(COLA FIFO): [Cuatro Caminos]\\
+        Explorados(Conjunto): {\(\empty\)}
+
+    \item Iteracion 1.\\
+    Nodo actual: Cuatro Caminos.\\
+    Path\_cost = 0.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos\}.\\
+    Nueva Frontera: [Panteones]
+
+    \item Iteracion 2.\\
+    Nodo actual: Panteones.\\
+    Path\_cost = 1.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos, Panteones\}.\\
+    Nueva Frontera: [Tacuba]
+
+    \item Iteracion 3.\\
+    Nodo actual: Tacuba.\\
+    Path\_cost = 2.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos, Panteones, Tacuba\}.\\
+    Nueva Frontera: [Cuitláhuac, Refinería, San Joaquín]
+
+    \item Iteracion 4.\\
+    Nodo actual: Cuitláhuac.\\
+    Path\_cost = 3.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos, Panteones, Tacuba, Cuitláhuac\}.\\
+    Nueva Frontera: [Refinería, San Joaquín, Popotla]
+
+    \item Iteracion 5.\\
+    Nodo actual: Refinería.\\
+    Path\_cost = 3.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos, Panteones, Tacuba, Cuitláhuac, Refinería\}.\\
+    Nueva Frontera: [San Joaquín, Popotla, Camarones]
+
+    \item Iteracion 6.\\
+    Nodo actual: San Joaquín.\\
+    Path\_cost = 3.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos, Panteones, Tacuba, Cuitláhuac, Refinería, San Joaquín\}.\\
+    Nueva Frontera: [Popotla, Camarones, Polanco]
+
+    \item Iteracion 7.\\
+    Nodo actual: Popotla.\\
+    Path\_cost = 4.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos, Panteones, Tacuba, Cuitláhuac, Refinería, San Joaquín, Popotla\}.\\
+    Nueva Frontera: [Camarones, Polanco, Colegio Militar]
+
+    \item Iteracion 8.\\
+    Nodo actual: Camarones.\\
+    Path\_cost = 4.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos, Panteones, Tacuba, Cuitláhuac, Refinería, San Joaquín, Popotla, Camarones\}.\\
+    Nueva Frontera: [Polanco, Colegio Militar, Aquiles Serdán]
+
+    \item Iteracion 9.\\
+    Nodo actual: Polanco.\\
+    Path\_cost = 4.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos, Panteones, Tacuba, Cuitláhuac, Refinería, San Joaquín, Popotla, Camarones, Polanco\}.\\
+    Nueva Frontera: [Colegio Militar, Aquiles Serdán, Auditorio]
+
+    \item Iteracion 10.\\
+    Nodo actual: Colegio Militar.\\
+    Path\_cost = 5.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos, Panteones, Tacuba, Cuitláhuac, Refinería, San Joaquín, Popotla, Camarones, Polanco, Colegio Militar\}.\\
+    Nueva Frontera: [Aquiles Serdán, Auditorio, Normal]
+
+    \item \dots
+    
+    \item Iteracion N-2.\\
+    Nodo actual: Ciudad Deportiva.\\
+    Path\_cost = 16.\\
+    fdd = 0.\\
+    Explorados: \{..., Velódromo, Ciudad Deportiva\}.\\
+    Nueva Frontera: [..., Puebla]
+
+    \item Iteracion N-1.\\
+    Nodo actual: Puebla.\\
+    Path\_cost = 17.\\
+    fdd = 0.\\
+    Explorados: \{..., Velódromo, Ciudad Deportiva, Puebla\}.\\
+    Nueva Frontera: [..., Pantitlán]
+
+    \item Iteracion N.\\
+    Nodo actual: Pantitlán.\\
+    Path\_cost = 18.\\
+    fdd = 1.\\
+    Explorados: \{..., Ciudad Deportiva, Puebla, Pantitlán\}.\\
+    Nueva Frontera: META ALCANZADA
+
+\end{itemize}
+
+
+\newpage
+\section{Depth First Search  Cuatro Caminos -> Pantitlan}
+
+\vspace{3mm}
+
+El algoritmo DFS, utiliza LIFO (stack) Last in \(->\) Firt out
+
+\begin{itemize}
+    \item Estado Inicial \\
+        Frontera(PILA LIFO): [Cuatro Caminos]\\
+        Explorados(Conjunto): \{\(\empty\)\}
+
+    \item Iteracion 1.\\
+    Nodo actual: Cuatro Caminos.\\
+    Path\_cost = 0.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos\}.\\
+    Nueva Frontera: [Panteones]
+
+    \item Iteracion 2.\\
+    Nodo actual: Panteones.\\
+    Path\_cost = 1.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos, Panteones\}.\\
+    Nueva Frontera: [Tacuba]
+
+    \item Iteracion 3.\\
+    Nodo actual: Tacuba.\\
+    Path\_cost = 2.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos, Panteones, Tacuba\}.\\
+    Nueva Frontera: [Cuitláhuac, Refinería, San Joaquín]
+
+    \item Iteracion 4.\\
+    Nodo actual: San Joaquín.\\
+    Path\_cost = 3.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos, Panteones, Tacuba, San Joaquín\}.\\
+    Nueva Frontera: [Cuitláhuac, Refinería, Polanco]
+
+    \item Iteracion 5.\\
+    Nodo actual: Polanco.\\
+    Path\_cost = 4.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos, Panteones, Tacuba, San Joaquín, Polanco\}.\\
+    Nueva Frontera: [Cuitláhuac, Refinería, Auditorio]
+
+    \item Iteracion 6.\\
+    Nodo actual: Auditorio.\\
+    Path\_cost = 5.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos, Panteones, Tacuba, San Joaquín, Polanco, Auditorio\}.\\
+    Nueva Frontera: [Cuitláhuac, Refinería, Constituyentes]
+
+    \item Iteracion 7.\\
+    Nodo actual: Constituyentes.\\
+    Path\_cost = 6.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos, Panteones, Tacuba, San Joaquín, Polanco, Auditorio, Constituyentes\}.\\
+    Nueva Frontera: [Cuitláhuac, Refinería, Tacubaya]
+
+    \item Iteracion 8.\\
+    Nodo actual: Tacubaya.\\
+    Path\_cost = 7.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos, Panteones, Tacuba, San Joaquín, Polanco, Auditorio, Constituyentes, Tacubaya\}.\\
+    Nueva Frontera: [Cuitláhuac, Refinería, Observatorio, Juanacatlán, Patriotismo, San Pedro de los Pinos]
+
+    \item Iteracion 9.\\
+    Nodo actual: San Pedro de los Pinos.\\
+    Path\_cost = 8.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos, Panteones, Tacuba, San Joaquín, Polanco, Auditorio, Constituyentes, Tacubaya, San Pedro de los Pinos\}.\\
+    Nueva Frontera: [Cuitláhuac, Refinería, Observatorio, Juanacatlán, Patriotismo, San Antonio]
+
+    \item Iteracion 10.\\
+    Nodo actual: San Antonio.\\
+    Path\_cost = 9.\\
+    fdd = 0.\\
+    Explorados: \{Cuatro Caminos, Panteones, Tacuba, San Joaquín, Polanco, Auditorio, Constituyentes, Tacubaya, San Pedro de los Pinos, San Antonio\}.\\
+    Nueva Frontera: [Cuitláhuac, Refinería, Observatorio, Juanacatlán, Patriotismo, Mixcoac]
+    
+    \item \dots
+    
+    \item Iteracion N-2.\\
+    Nodo actual: Ciudad Deportiva.\\
+    Path\_cost = 16.\\
+    fdd = 0.\\
+    Explorados: \{..., Velódromo, Ciudad Deportiva\}.\\
+    Nueva Frontera: [..., Puebla]
+
+    \item Iteracion N-1.\\
+    Nodo actual: Puebla.\\
+    Path\_cost = 17.\\
+    fdd = 0.\\
+    Explorados: \{..., Velódromo, Ciudad Deportiva, Puebla\}.\\
+    Nueva Frontera: [..., Pantitlán]
+
+    \item Iteracion N.\\
+    Nodo actual: Pantitlán.\\
+    Path\_cost = 18.\\
+    fdd = 1.\\
+    Explorados: \{..., Ciudad Deportiva, Puebla, Pantitlán\}.\\
+    Nueva Frontera: META ALCANZADA
+
+\end{itemize}
+
+
+\newpage
+\section{Conclusion Cuatro Caminos -> Pantitlan}
+
+\begin{itemize}
+    \item  Ruta encontrada por BFS:
+- Cuatro Caminos
+- Panteones
+- Tacuba
+- San Joaquín
+- Polanco
+- Auditorio
+- Constituyentes
+- Tacubaya
+- Patriotismo
+- Chilpancingo
+- Centro Médico
+- Lázaro Cárdenas
+- Chabacano
+- Jamaica
+- Mixiuhca
+- Velódromo
+- Ciudad Deportiva
+- Puebla
+- Pantitlán
+
+\item  Ruta encontrada por DFS:
+- Cuatro Caminos
+- Panteones
+- Tacuba
+- San Joaquín
+- Polanco
+- Auditorio
+- Constituyentes
+- Tacubaya
+- Patriotismo
+- Chilpancingo
+- Centro Médico
+- Lázaro Cárdenas
+- Chabacano
+- Jamaica
+- Mixiuhca
+- Velódromo
+- Ciudad Deportiva
+- Puebla
+- Pantitlán
+\end{itemize}
+
+\vspace{3mm}
+
+\begin{alerta}{-}
+    En el codigo DFS, segun el orden establecido escribimos los nodos adyacentes a 
+    'Tacubaya': {'Constituyentes': 1, 'Observatorio': 1, 'San Pedro de los Pinos': 1, 'Patriotismo': 1}
+    Como DFS usa una Pila (el último en entrar es el primero en salir), en la siguiente iteración saca inmediatamente a Patriotismo y se va por la Línea 9 hasta Pantitlán
+
+    En un grafo completo y complejo, BFS Y DFS casi nunca entregan el mismo resultado
+\end{alerta}
+
+
+
+\newpage
+
+\section{Breadth First Search Politécnico -> Taxqueña}
+
+\vspace{3mm}
+
+El algoritmo BFS, utiliza FIFO (Queue) Firt in \(->\) Firt out
+
+\begin{itemize}
+    \item Estado Inicial \\
+        Frontera(COLA FIFO): [Politécnico]\\
+        Explorados(Conjunto): \{\(\empty\)\}
+
+    \item Iteracion 1.\\
+    Nodo actual: Politécnico.\\
+    Path\_cost = 0.\\
+    fdd = 0.\\
+    Explorados: \{Politécnico\}.\\
+    Nueva Frontera: [Instituto del Petróleo]
+
+    \item Iteracion 2.\\
+    Nodo actual: Instituto del Petróleo.\\
+    Path\_cost = 1.\\
+    fdd = 0.\\
+    Explorados: \{Politécnico, Instituto del Petróleo\}.\\
+    Nueva Frontera: [Autobuses del Norte, Vallejo, Lindavista]
+
+    \item Iteracion 3.\\
+    Nodo actual: Autobuses del Norte.\\
+    Path\_cost = 2.\\
+    fdd = 0.\\
+    Explorados: \{Politécnico, Instituto del Petróleo, Autobuses del Norte\}.\\
+    Nueva Frontera: [Vallejo, Lindavista, La Raza]
+
+    \item Iteracion 4.\\
+    Nodo actual: Vallejo.\\
+    Path\_cost = 2.\\
+    fdd = 0.\\
+    Explorados: \{Politécnico, Instituto del Petróleo, Autobuses del Norte, Vallejo\}.\\
+    Nueva Frontera: [Lindavista, La Raza, Norte 45]
+
+    \item Iteracion 5.\\
+    Nodo actual: Lindavista.\\
+    Path\_cost = 2.\\
+    fdd = 0.\\
+    Explorados: \{Politécnico, Instituto del Petróleo, Autobuses del Norte, Vallejo, Lindavista\}.\\
+    Nueva Frontera: [La Raza, Norte 45, Deportivo 18 de Marzo]
+
+    \item Iteracion 6.\\
+    Nodo actual: La Raza.\\
+    Path\_cost = 3.\\
+    fdd = 0.\\
+    Explorados: \{Politécnico, Instituto del Petróleo, Autobuses del Norte, Vallejo, Lindavista, La Raza\}.\\
+    Nueva Frontera: [Norte 45, Deportivo 18 de Marzo, Misterios, Potrero, Tlatelolco]
+
+    \item Iteracion 7.\\
+    Nodo actual: Norte 45.\\
+    Path\_cost = 3.\\
+    fdd = 0.\\
+    Explorados: \{Politécnico, Instituto del Petróleo, Autobuses del Norte, Vallejo, Lindavista, La Raza, Norte 45\}.\\
+    Nueva Frontera: [Deportivo 18 de Marzo, Misterios, Potrero, Tlatelolco, Ferrería]
+
+    \item Iteracion 8.\\
+    Nodo actual: Deportivo 18 de Marzo.\\
+    Path\_cost = 3.\\
+    fdd = 0.\\
+    Explorados: \{Politécnico, Instituto del Petróleo, Autobuses del Norte, Vallejo, Lindavista, La Raza, Norte 45, Deportivo 18 de Marzo\}.\\
+    Nueva Frontera: [Misterios, Potrero, Tlatelolco, Ferrería, Indios Verdes, La Villa-Basílica]
+
+    \item Iteracion 9.\\
+    Nodo actual: Misterios.\\
+    Path\_cost = 4.\\
+    fdd = 0.\\
+    Explorados: \{Politécnico, Instituto del Petróleo, Autobuses del Norte, Vallejo, Lindavista, La Raza, Norte 45, Deportivo 18 de Marzo, Misterios\}.\\
+    Nueva Frontera: [Potrero, Tlatelolco, Ferrería, Indios Verdes, La Villa-Basílica, Valle Gómez]
+
+    \item Iteracion 10.\\
+    Nodo actual: Potrero.\\
+    Path\_cost = 4.\\
+    fdd = 0.\\
+    Explorados: \{Politécnico, Instituto del Petróleo, Autobuses del Norte, Vallejo, Lindavista, La Raza, Norte 45, Deportivo 18 de Marzo, Misterios, Potrero\}.\\
+    Nueva Frontera: [Tlatelolco, Ferrería, Indios Verdes, La Villa-Basílica, Valle Gómez]
+
+    \item \dots
+    
+    \item Iteracion N-2.\\
+    Nodo actual: Ermita.\\
+    Path\_cost = 18.\\
+    fdd = 0.\\
+    Explorados: \{..., Portales, Eje Central, Ermita\}.\\
+    Nueva Frontera: [..., General Anaya]
+
+    \item Iteracion N-1.\\
+    Nodo actual: General Anaya.\\
+    Path\_cost = 19.\\
+    fdd = 0.\\
+    Explorados: \{..., Portales, Eje Central, Ermita, General Anaya\}.\\
+    Nueva Frontera: [..., Taxqueña]
+
+    \item Iteracion N.\\
+    Nodo actual: Taxqueña.\\
+    Path\_cost = 20.\\
+    fdd = 1.\\
+    Explorados: \{..., Ermita, General Anaya, Taxqueña\}.\\
+    Nueva Frontera: META ALCANZADA
+
+\end{itemize}
+
+\newpage
+
+\section{Depth First Search Politécnico -> Taxqueña}
+
+\vspace{3mm}
+
+El algoritmo DFS, utiliza LIFO (stack) Last in \(->\) Firt out
+
+\begin{itemize}
+    \item Estado Inicial \\
+        Frontera(PILA LIFO): [Politécnico]\\
+        Explorados(Conjunto): \{\(\empty\)\}
+
+    \item Iteracion 1.\\
+    Nodo actual: Politécnico.\\
+    Path\_cost = 0.\\
+    fdd = 0.\\
+    Explorados: \{Politécnico\}.\\
+    Nueva Frontera: [Instituto del Petróleo]
+
+    \item Iteracion 2.\\
+    Nodo actual: Instituto del Petróleo.\\
+    Path\_cost = 1.\\
+    fdd = 0.\\
+    Explorados: \{Politécnico, Instituto del Petróleo\}.\\
+    Nueva Frontera: [Autobuses del Norte, Vallejo, Lindavista]
+
+    \item Iteracion 3.\\
+    Nodo actual: Lindavista.\\
+    Path\_cost = 2.\\
+    fdd = 0.\\
+    Explorados: \{Politécnico, Instituto del Petróleo, Lindavista\}.\\
+    Nueva Frontera: [Autobuses del Norte, Vallejo, Deportivo 18 de Marzo]
+
+    \item Iteracion 4.\\
+    Nodo actual: Deportivo 18 de Marzo.\\
+    Path\_cost = 3.\\
+    fdd = 0.\\
+    Explorados: \{Politécnico, Instituto del Petróleo, Lindavista, Deportivo 18 de Marzo\}.\\
+    Nueva Frontera: [Autobuses del Norte, Vallejo, La Villa-Basílica, Indios Verdes, Potrero]
+
+    \item Iteracion 5.\\
+    Nodo actual: Potrero.\\
+    Path\_cost = 4.\\
+    fdd = 0.\\
+    Explorados: \{Politécnico, Instituto del Petróleo, Lindavista, Deportivo 18 de Marzo, Potrero\}.\\
+    Nueva Frontera: [Autobuses del Norte, Vallejo, La Villa-Basílica, Indios Verdes, La Raza]
+    
+    \item Iteracion 6.\\
+    Nodo actual: La Raza.\\
+    Path\_cost = 5.\\
+    fdd = 0.\\
+    Explorados: \{Politécnico, Instituto del Petróleo, Lindavista, Deportivo 18 de Marzo, Potrero, La Raza\}.\\
+    Nueva Frontera: [Autobuses del Norte, Vallejo, La Villa-Basílica, Indios Verdes, Tlatelolco, Misterios]
+    
+    \item Iteracion 7.\\
+    Nodo actual: Misterios.\\
+    Path\_cost = 6.\\
+    fdd = 0.\\
+    Explorados: \{Politécnico, Instituto del Petróleo, Lindavista, Deportivo 18 de Marzo, Potrero, La Raza, Misterios\}.\\
+    Nueva Frontera: [Autobuses del Norte, Vallejo, La Villa-Basílica, Indios Verdes, Tlatelolco, Valle Gómez]
+
+    \item Iteracion 8.\\
+    Nodo actual: Valle Gómez.\\
+    Path\_cost = 7.\\
+    fdd = 0.\\
+    Explorados: \{..., La Raza, Misterios, Valle Gómez\}.\\
+    Nueva Frontera: [Autobuses del Norte, Vallejo, La Villa-Basílica, Indios Verdes, Tlatelolco, Consulado]
+
+    \item Iteracion 9.\\
+    Nodo actual: Consulado.\\
+    Path\_cost = 8.\\
+    fdd = 0.\\
+    Explorados: \{..., Misterios, Valle Gómez, Consulado\}.\\
+    Nueva Frontera: [Autobuses del Norte, Vallejo, La Villa-Basílica, Indios Verdes, Tlatelolco, Eduardo Molina, Canal del Norte, Bondojito]
+
+    \item Iteracion 10.\\
+    Nodo actual: Bondojito.\\
+    Path\_cost = 9.\\
+    fdd = 0.\\
+    Explorados: \{..., Valle Gómez, Consulado, Bondojito\}.\\
+    Nueva Frontera: [Autobuses del Norte, Vallejo, La Villa-Basílica, Indios Verdes, Tlatelolco, Eduardo Molina, Canal del Norte, Talismán]
+
+\end{itemize}
+
+
+\newpage
+\section{Conclusion Politécnico -> Taxqueña}
+
+\begin{itemize}
+    \item Ruta óptima encontrada por BFS (Politécnico -> Taxqueña):
+- Politécnico
+- Instituto del Petróleo
+- Autobuses del Norte
+- La Raza
+- Tlatelolco
+- Guerrero
+- Hidalgo
+- Bellas Artes
+- Allende
+- Zócalo
+- Pino Suárez
+- San Antonio Abad
+- Chabacano
+- Viaducto
+- Xola
+- Villa de Cortés
+- Nativitas
+- Portales
+- Ermita
+- General Anaya
+- Taxqueña
+
+\item Ruta encontrada por DFS (Politécnico -> Taxqueña):
+- Politécnico
+- Instituto del Petróleo
+- Lindavista
+- Deportivo 18 de Marzo
+- Potrero
+- La Raza
+- Tlatelolco
+- Guerrero
+- Hidalgo
+- Bellas Artes
+- Allende
+- Zócalo
+- Pino Suárez
+- San Antonio Abad
+- Chabacano
+- Viaducto
+- Xola
+- Villa de Cortés
+- Nativitas
+- Portales
+- Ermita
+- General Anaya
+- Taxqueña
+\end{itemize}
+
+
+\begin{alerta}{-}
+   BFS (Ruta Óptima - 21 estaciones):Búsqueda en Anchura encontró el camino más corto.
+   DFS (Ruta Subóptima - 23 estaciones): La Búsqueda en Profundidad entregó un recorrido 2 estaciones más largo. Debido al comportamiento de su pila (LIFO), 
+   el algoritmo tomó un "desvío" en Instituto del Petróleo, 
+   yéndose por la Línea 6 hacia Lindavista y Deportivo 18 de Marzo para 
+   luego bajar por la Línea 3 hasta La Raza, donde finalmente retomó el mismo camino hacia el sur.
+\end{alerta}
+
+
+\newpage
+
+
+
+\section{Breadth First Search Zapata -> Oceanía}
+
+\vspace{3mm}
+
+El algoritmo BFS utiliza FIFO (Queue): First in \(->\) First out.
+
+\begin{itemize}
+    \item Estado Inicial \\
+        Frontera(COLA FIFO): [Zapata]\\
+        Explorados(Conjunto): \{\(\empty\)\}
+
+    \item Iteracion 1:\\
+    Nodo actual: Zapata.\\
+    Path\_cost = 0.\\
+    fdd = 0.\\
+    Explorados: \{Zapata\}.\\
+    Nueva Frontera: [División del Norte, Parque de los Venados, Coyoacán, Hospital 20 de Noviembre]
+
+    \item Iteracion 2:\\
+    Nodo actual: División del Norte.\\
+    Path\_cost = 1.\\
+    fdd = 0.\\
+    Explorados: \{Zapata, División del Norte\}.\\
+    Nueva Frontera: [Parque de los Venados, Coyoacán, Hospital 20 de Noviembre, Eugenia]
+
+    \item Iteracion 3:\\
+    Nodo actual: Parque de los Venados.\\
+    Path\_cost = 1.\\
+    fdd = 0.\\
+    Explorados: \{Zapata, División del Norte, Parque de los Venados\}.\\
+    Nueva Frontera: [Coyoacán, Hospital 20 de Noviembre, Eugenia, Eje Central]
+
+    \item Iteracion 4:\\
+    Nodo actual: Coyoacán.\\
+    Path\_cost = 1.\\
+    fdd = 0.\\
+    Explorados: \{Zapata, División del Norte, Parque de los Venados, Coyoacán\}.\\
+    Nueva Frontera: [Hospital 20 de Noviembre, Eugenia, Eje Central, Viveros]
+
+    \item Iteracion 5:\\
+    Nodo actual: Hospital 20 de Noviembre.\\
+    Path\_cost = 1.\\
+    fdd = 0.\\
+    Explorados: \{Zapata, División del Norte, Parque de los Venados, Coyoacán, Hospital 20 de Noviembre\}.\\
+    Nueva Frontera: [Eugenia, Eje Central, Viveros, Insurgentes Sur]
+
+    \item Iteracion 6:\\
+    Nodo actual: Eugenia.\\
+    Path\_cost = 2.\\
+    fdd = 0.\\
+    Explorados: \{Zapata, División del Norte, Parque de los Venados, Coyoacán, Hospital 20 de Noviembre, Eugenia\}.\\
+    Nueva Frontera: [Eje Central, Viveros, Insurgentes Sur, Etiopía]
+
+    \item Iteracion 7:\\
+    Nodo actual: Eje Central.\\
+    Path\_cost = 2.\\
+    fdd = 0.\\
+    Explorados: \{Zapata, División del Norte, Parque de los Venados, Coyoacán, Hospital 20 de Noviembre, Eugenia, Eje Central\}.\\
+    Nueva Frontera: [Viveros, Insurgentes Sur, Etiopía, Ermita]
+
+    \item Iteracion 8:\\
+    Nodo actual: Viveros.\\
+    Path\_cost = 2.\\
+    fdd = 0.\\
+    Explorados: \{Zapata, División del Norte, Parque de los Venados, Coyoacán, Hospital 20 de Noviembre, Eugenia, Eje Central, Viveros\}.\\
+    Nueva Frontera: [Insurgentes Sur, Etiopía, Ermita, M.A. Quevedo]
+
+    \item Iteracion 9:\\
+    Nodo actual: Insurgentes Sur.\\
+    Path\_cost = 2.\\
+    fdd = 0.\\
+    Explorados: \{Zapata, División del Norte, Parque de los Venados, Coyoacán, Hospital 20 de Noviembre, Eugenia, Eje Central, Viveros, Insurgentes Sur\}.\\
+    Nueva Frontera: [Etiopía, Ermita, M.A. Quevedo, Mixcoac]
+
+    \item Iteracion 10:\\
+    Nodo actual: Etiopía.\\
+    Path\_cost = 3.\\
+    fdd = 0.\\
+    Explorados: \{Zapata, División del Norte, Parque de los Venados, Coyoacán, Hospital 20 de Noviembre, Eugenia, Eje Central, Viveros, Insurgentes Sur, Etiopía\}.\\
+    Nueva Frontera: [Ermita, M.A. Quevedo, Mixcoac, Centro Médico]
+
+    \item \dots
+    
+
+    \item Iteracion N-2:\\
+    Nodo actual: Ricardo Flores Magón.\\
+    Path\_cost = 10.\\
+    fdd = 0.\\
+    Explorados: \{..., Candelaria, San Lázaro, Ricardo Flores Magón\}.\\
+    Nueva Frontera: [..., Romero Rubio]
+
+    \item Iteracion N-1:\\
+    Nodo actual: Romero Rubio.\\
+    Path\_cost = 11.\\
+    fdd = 0.\\
+    Explorados: \{..., San Lázaro, Ricardo Flores Magón, Romero Rubio\}.\\
+    Nueva Frontera: [..., Oceanía]
+
+    \item Iteracion N:\\
+    Nodo actual: Oceanía.\\
+    Path\_cost = 12.\\
+    fdd = 1.\\
+    Explorados: \{..., Ricardo Flores Magón, Romero Rubio, Oceanía\}.\\
+    Nueva Frontera: META ALCANZADA
+
+\end{itemize}
+
+
+\newpage
+
+
+\section{Depth First Search Zapata -> Oceanía}
+
+\vspace{3mm}
+
+El algoritmo DFS utiliza LIFO (Stack): Last in \(->\) First out.
+
+\begin{itemize}
+    \item Estado Inicial \\
+        Frontera(PILA LIFO): [Zapata]\\
+        Explorados(Conjunto): \{\(\empty\)\}
+
+    \item Iteracion 1:\\
+    Nodo actual: Zapata.\\
+    Path\_cost = 0.\\
+    fdd = 0.\\
+    Explorados: \{Zapata\}.\\
+    Nueva Frontera: [Parque de los Venados, Coyoacán, Hospital 20 de Noviembre, División del Norte]
+
+    \item Iteracion 2:\\
+    Nodo actual: División del Norte.\\
+    Path\_cost = 1.\\
+    fdd = 0.\\
+    Explorados: \{Zapata, División del Norte\}.\\
+    Nueva Frontera: [Parque de los Venados, Coyoacán, Hospital 20 de Noviembre, Eugenia]
+
+    \item Iteracion 3:\\
+    Nodo actual: Eugenia.\\
+    Path\_cost = 2.\\
+    fdd = 0.\\
+    Explorados: \{Zapata, División del Norte, Eugenia\}.\\
+    Nueva Frontera: [Parque de los Venados, Coyoacán, Hospital 20 de Noviembre, Etiopía]
+
+    \item Iteracion 4:\\
+    Nodo actual: Etiopía.\\
+    Path\_cost = 3.\\
+    fdd = 0.\\
+    Explorados: \{Zapata, División del Norte, Eugenia, Etiopía\}.\\
+    Nueva Frontera: [Parque de los Venados, Coyoacán, Hospital 20 de Noviembre, Centro Médico]
+
+    \item Iteracion 5:\\
+    Nodo actual: Centro Médico.\\
+    Path\_cost = 4.\\
+    fdd = 0.\\
+    Explorados: \{Zapata, División del Norte, Eugenia, Etiopía, Centro Médico\}.\\
+    Nueva Frontera: [Parque de los Venados, Coyoacán, Hospital 20 de Noviembre, Lázaro Cárdenas, Chilpancingo, Hospital General]
+
+    \item Iteracion 6:\\
+    Nodo actual: Hospital General.\\
+    Path\_cost = 5.\\
+    fdd = 0.\\
+    Explorados: \{Zapata, División del Norte, Eugenia, Etiopía, Centro Médico, Hospital General\}.\\
+    Nueva Frontera: [Parque de los Venados, Coyoacán, Hospital 20 de Noviembre, Lázaro Cárdenas, Chilpancingo, Niños Héroes]
+
+    \item Iteracion 7:\\
+    Nodo actual: Niños Héroes.\\
+    Path\_cost = 6.\\
+    fdd = 0.\\
+    Explorados: \{Zapata, División del Norte, Eugenia, Etiopía, Centro Médico, Hospital General, Niños Héroes\}.\\
+    Nueva Frontera: [Parque de los Venados, Coyoacán, Hospital 20 de Noviembre, Lázaro Cárdenas, Chilpancingo, Balderas]
+
+    \item Iteracion 8:\\
+    Nodo actual: Balderas.\\
+    Path\_cost = 7.\\
+    fdd = 0.\\
+    Explorados: \{Zapata, División del Norte, Eugenia, Etiopía, Centro Médico, Hospital General, Niños Héroes, Balderas\}.\\
+    Nueva Frontera: [Parque de los Venados, Coyoacán, Hospital 20 de Noviembre, Lázaro Cárdenas, Chilpancingo, Juárez, Cuauhtémoc, Salto del Agua]
+
+    \item Iteracion 9:\\
+    Nodo actual: Salto del Agua.\\
+    Path\_cost = 8.\\
+    fdd = 0.\\
+    Explorados: \{Zapata, División del Norte, Eugenia, Etiopía, Centro Médico, Hospital General, Niños Héroes, Balderas, Salto del Agua\}.\\
+    Nueva Frontera: [Parque de los Venados, Coyoacán, Hospital 20 de Noviembre, Lázaro Cárdenas, Chilpancingo, Juárez, Cuauhtémoc, San Juan de Letrán, Doctores, Isabel la Católica]
+
+    \item Iteracion 10:\\
+    Nodo actual: Isabel la Católica.\\
+    Path\_cost = 9.\\
+    fdd = 0.\\
+    Explorados: \{Zapata, División del Norte, Eugenia, Etiopía, Centro Médico, Hospital General, Niños Héroes, Balderas, Salto del Agua, Isabel la Católica\}.\\
+    Nueva Frontera: [Parque de los Venados, Coyoacán, Hospital 20 de Noviembre, Lázaro Cárdenas, Chilpancingo, Juárez, Cuauhtémoc, San Juan de Letrán, Doctores, Pino Suárez]
+
+    \item Iteracion N-2:\\
+    Nodo actual: Ricardo Flores Magón.\\
+    Path\_cost = 14.\\
+    fdd = 0.\\
+    Explorados: \{..., Candelaria, San Lázaro, Ricardo Flores Magón\}.\\
+    Nueva Frontera: [..., Romero Rubio]
+
+    \item Iteracion N-1:\\
+    Nodo actual: Romero Rubio.\\
+    Path\_cost = 15.\\
+    fdd = 0.\\
+    Explorados: \{..., San Lázaro, Ricardo Flores Magón, Romero Rubio\}.\\
+    Nueva Frontera: [..., Oceanía]
+
+    \item Iteracion N:\\
+    Nodo actual: Oceanía.\\
+    Path\_cost = 16.\\
+    fdd = 1.\\
+    Explorados: \{..., Ricardo Flores Magón, Romero Rubio, Oceanía\}.\\
+    Nueva Frontera: META ALCANZADA
+
+\end{itemize}
+
+\newpage
+\section{Conclusion Politécnico -> Taxqueña}
+
+\begin{itemize}
+    \item RRuta óptima encontrada por BFS (Zapata -> Oceanía):
+    - Zapata
+    - División del Norte
+    - Eugenia
+    - Etiopía
+    - Centro Médico
+    - Lázaro Cárdenas
+    - Chabacano
+    - Jamaica
+    - Fray Servando
+    - Candelaria
+    - San Lázaro
+    - Ricardo Flores Magón
+    - Romero Rubio
+    - Oceanía
+
+\item Ruta encontrada por DFS (Zapata -> Oceanía):
+    - Zapata
+    - División del Norte
+    - Eugenia
+    - Etiopía
+    - Centro Médico
+    - Hospital General
+    - Niños Héroes
+    - Balderas
+    - Salto del Agua
+    - Isabel la Católica
+    - Pino Suárez
+    - Merced
+    - Candelaria
+    - San Lázaro
+    - Ricardo Flores Magón
+    - Romero Rubio
+    - Oceanía
+\end{itemize}
+
+
+\begin{alerta}{-}
+    Búsqueda en Anchura (BFS) - El camino óptimo
+    Costo total: 13 estaciones.
+    Comportamiento: Como BFS utiliza una estructura de Cola (FIFO) y se expande por niveles, logró encontrar matemáticamente la ruta más corta.
+
+    Búsqueda en Profundidad (DFS) - El camino subóptimo
+    Costo total: 16 estaciones.
+    Comportamiento: Al utilizar una Pila (LIFO), DFS no busca el camino más corto, sino que se "clava" en la primera rama disponible hasta el fondo.
+
+\end{alerta}
+
+
+\end{document}
