@@ -46,6 +46,7 @@ dist/
 # ==============================
 # Archivos auxiliares generados al compilar
 *.aux
+*.auxlock
 *.bbl
 *.bcf
 *.blg
