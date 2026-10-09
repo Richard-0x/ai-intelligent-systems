@@ -23,6 +23,7 @@ __pycache__/
 venv/
 env/
 ENV/
+.vscode/
 
 # Archivos de configuración/locales
 .env
